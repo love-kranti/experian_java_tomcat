@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="false"
+	xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="log.txt" />
+		<param name="threshold" value="info" />
+		<param name="immediateFlush" value="true" />
+		<param name="append" value="false" />
+		<param name="datePattern" value="'.' yyyy-MM-dd-a" />
+	    	<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+	    	</layout>
+	</appender>
+
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="file" />
+	</root>
+
+</log4j:configuration>

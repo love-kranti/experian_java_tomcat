@@ -24,7 +24,7 @@ public class HttpConnection {
 
 	public static String landingPageSubmit(String request) throws Exception{
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV/content/landingPageSubmit.action";
+		String url = "https://consumer.experian.in:8444/ECV/content/landingPageSubmit.action";
 		logger.info("Call url : " + url);
 		logger.info(request);
 		URL u = new URL(url);
@@ -57,7 +57,7 @@ public class HttpConnection {
 	
 	public static String openCustomerDetailsFormAction(String jsessionId, String request) throws Exception {
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV/content/openCustomerDetailsFormAction.action";
+		String url = "https://consumer.experian.in:8444/ECV/content/openCustomerDetailsFormAction.action";
 		logger.info("Call url : " + url);
 		logger.info(jsessionId);
 		logger.info(request);
@@ -89,7 +89,7 @@ public class HttpConnection {
 	
 	public static void fetchScreenMetaDataAction(String jsessionId, String request) throws Exception {
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV/content/fetchScreenMetaDataAction.action";
+		String url = "https://consumer.experian.in:8444/ECV/content/fetchScreenMetaDataAction.action";
 		logger.info("Call url : " + url);
 		logger.info(jsessionId);
 		logger.info(request);
@@ -120,7 +120,7 @@ public class HttpConnection {
 	
 	public static String submitRequest(String jsessionId, String params) throws Exception {
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV/content/submitRequest.action";
+		String url = "https://consumer.experian.in:8444/ECV/content/submitRequest.action";
 		logger.info("Call url : " + url);
 		logger.info(jsessionId);
 		logger.info(params);
@@ -184,7 +184,7 @@ public class HttpConnection {
 		
 	public static String paymentSubmitRequest(String params) throws Exception {
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV-P2/content/paymentSubmitRequest.action?"+params;
+		String url = "https://consumer.experian.in:8445/ECV-P2/content/paymentSubmitRequest.action?"+params;
 		logger.info("Call url : " + url);
 		logger.info(params);
 
@@ -222,7 +222,7 @@ public class HttpConnection {
 	
 	public static Map generateQuestionForConsumer(String jsessionId, String request) throws Exception {
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV-P2/content/generateQuestionForConsumer.action?"+request;
+		String url = "https://consumer.experian.in:8445/ECV-P2/content/generateQuestionForConsumer.action?"+request;
 		logger.info("Call url : " + url);
 		logger.info(jsessionId);
 		logger.info(request);
@@ -244,16 +244,18 @@ public class HttpConnection {
 		writer.close();
 		os.close();
 		int status = conn.getResponseCode();
+		logger.info("generatequestioncustomer~"+status);
 		if (status == HttpURLConnection.HTTP_OK) {
 			
 			return parseJson(print(conn));
 		}
+		
 		return null;
 	}
 	
 	public static String downloadPdfForCreditReport(String jsessionId, String request) throws Exception {
 
-		String url = "https://cbv2cpu.uat.experian.in:16443/ECV-P2/content/downloadPdfForCreditReport.action?"+request;
+		String url = "https://consumer.experian.in:8445/ECV-P2/content/downloadPdfForCreditReport.action?"+request;
 		logger.info("Call url : " + url);
 		logger.info(jsessionId);
 		logger.info(request);

@@ -84,6 +84,7 @@ public class ExperianIntegrationService{
 			for(int i=1;i<=3;i++){
 				jsessionId = HttpConnection.landingPageSubmit(request);
 				
+				logger.info("landingPageSubmit~retry~"+i);
 				if(jsessionId == null) continue;
 				if(jsessionId.equals("") == false) break; 
 			}
@@ -92,6 +93,7 @@ public class ExperianIntegrationService{
 
 			for(int i=1;i<=3;i++){
 				stageOneRequestId = HttpConnection.openCustomerDetailsFormAction(jsessionId,"");
+				logger.info("openCustomerDetailsFormAction~retry~"+i);
 				if(stageOneRequestId == null) continue;
 				if(stageOneRequestId.equals("") == false) break;
 			}
@@ -150,6 +152,7 @@ public class ExperianIntegrationService{
 			
 			for(int i=1;i<=3;i++){
 				resp = HttpConnection.submitRequest(jsessionId,  request);
+				logger.info("submitRequest~retry~"+i);
 				if(resp == null) continue;
 				if(resp.equals("") == false) break;
 			}		
@@ -181,6 +184,7 @@ public class ExperianIntegrationService{
 			String stageTwoRequestId ="";
 			for(int i=1;i<=3;i++){
 				stageTwoRequestId = HttpConnection.directCRQRequest(resp, jsessionId, params);
+				logger.info("directCRQRequest~retry~"+i);
 				if(stageTwoRequestId == null) continue;
 				if(stageTwoRequestId.equals("") == false) break;
 			}		
@@ -203,6 +207,7 @@ public class ExperianIntegrationService{
 			String jsessionIdResp ="";
 			for(int i=1;i<=3;i++){
 				jsessionIdResp = HttpConnection.paymentSubmitRequest(request);
+				logger.info("paymentSubmitRequest~retry~"+i);
 				if(jsessionIdResp == null) continue;
 				if(jsessionIdResp.equals("") == false) break;
 			}		
@@ -246,8 +251,14 @@ public class ExperianIntegrationService{
 				params.add(new BasicNameValuePair("stgTwoHitId", stageTwoRequestId));
 				request = getQuery(params);
 								
+				Map questionMap =null;
 				
-				Map questionMap = HttpConnection.generateQuestionForConsumer(jsessionIdResp,  request);								
+				for(int i=1;i<=3;i++){
+					questionMap = HttpConnection.generateQuestionForConsumer(jsessionIdResp,  request);	
+					logger.info("generateQuestionForConsumer~retry~"+i);
+					if(questionMap != null) break;
+				}
+				
 				responseJson = (String) questionMap.get("responseJson");
 				logger.info("getlandingPageDetails  ~ "+(map.get("LOG_MARKER")== null?"NOT_GIVEN":map.get("LOG_MARKER"))
 						+" ~ request : "+(request == null? "null":request)
@@ -283,8 +294,11 @@ public class ExperianIntegrationService{
 					responseMap.setErrorMessage("insufficientQuestion");						
 				}
 				
-				if (responseJson.equalsIgnoreCase("error") || responseJson.equalsIgnoreCase("creditReportEmpty")){
+				if (responseJson.equalsIgnoreCase("creditReportEmpty")){
 					responseMap.setErrorMessage("creditReportEmpty");				
+				}
+				if (responseJson.equalsIgnoreCase("error")){
+					responseMap.setErrorMessage("error");				
 				}
 				
 				return responseMap;
@@ -333,8 +347,14 @@ public class ExperianIntegrationService{
 				params.add(new BasicNameValuePair("stgOneHitId", map.get("stgOneHitId").toString()));
 				params.add(new BasicNameValuePair("stgTwoHitId", map.get("stgTwoHitId").toString()));
 				String request = getQuery(params);							
+				Map questionMap =null;
 				
-				Map questionMap = HttpConnection.generateQuestionForConsumer(jsessionId2,  request);								
+				for(int i=1;i<=3;i++){
+					questionMap = HttpConnection.generateQuestionForConsumer(jsessionId2,  request);	
+					logger.info("generateQuestionForConsumer2~retry~"+i);
+					if(questionMap != null) break;
+				}
+												
 				responseJson = (String) questionMap.get("responseJson");								
 				
 				if (responseJson.equalsIgnoreCase("passedReport")){

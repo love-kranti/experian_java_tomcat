@@ -245,8 +245,7 @@ public class ExperianIntegrationService{
 						+ "~ Log Marker 6");
 				params.clear();
 				params = new ArrayList<NameValuePair>();				
-				params.add(new BasicNameValuePair("answer", answer));									
-				params.add(new BasicNameValuePair("questionId", qId));
+				
 				params.add(new BasicNameValuePair("stgOneHitId", stageOneRequestId));
 				params.add(new BasicNameValuePair("stgTwoHitId", stageTwoRequestId));
 				request = getQuery(params);
@@ -254,11 +253,14 @@ public class ExperianIntegrationService{
 				Map questionMap =null;
 				
 				for(int i=1;i<=3;i++){
-					questionMap = HttpConnection.generateQuestionForConsumer(jsessionIdResp,  request);	
+					questionMap = HttpConnection.generateQuestionForConsumer(jsessionIdResp,  request);
 					logger.info("generateQuestionForConsumer~retry~"+i);
-					if(questionMap != null) break;
+					if(questionMap == null) continue;
+					responseJson = (String) questionMap.get("responseJson");
+					logger.info("generateQuestionForConsumererror~retry~"+i);
+					if(responseJson.equalsIgnoreCase("error")) continue;
+					break;
 				}
-				
 				responseJson = (String) questionMap.get("responseJson");
 				logger.info("getlandingPageDetails  ~ "+(map.get("LOG_MARKER")== null?"NOT_GIVEN":map.get("LOG_MARKER"))
 						+" ~ request : "+(request == null? "null":request)
@@ -351,11 +353,15 @@ public class ExperianIntegrationService{
 				
 				for(int i=1;i<=3;i++){
 					questionMap = HttpConnection.generateQuestionForConsumer(jsessionId2,  request);	
-					logger.info("generateQuestionForConsumer2~retry~"+i);
-					if(questionMap != null) break;
+					logger.info("generateQuestionForConsumer~retry~"+i);
+					if(questionMap == null) continue;
+					responseJson = (String) questionMap.get("responseJson");
+					logger.info("generateQuestionForConsumererror~retry~"+i);
+					if(responseJson.equalsIgnoreCase("error")) continue;
+					break;
 				}
 												
-				responseJson = (String) questionMap.get("responseJson");								
+				responseJson = (String) questionMap.get("responseJson");
 				
 				if (responseJson.equalsIgnoreCase("passedReport")){
 					String pdfData =  (String) questionMap.get("showHtmlReportForCreditReport");					

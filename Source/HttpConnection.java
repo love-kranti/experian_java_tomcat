@@ -143,6 +143,7 @@ public class HttpConnection {
 		os.close();
 		
 		int status = conn.getResponseCode();
+		logger.info("submitRequest~"+status);
 		if (status == HttpURLConnection.HTTP_OK) {
 			
 			Map map = parseJson(print(conn));

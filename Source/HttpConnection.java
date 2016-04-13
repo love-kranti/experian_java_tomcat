@@ -31,6 +31,8 @@ public class HttpConnection {
 		HttpURLConnection conn = (HttpURLConnection) u.openConnection();
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
 		OutputStream os = conn.getOutputStream();
 		BufferedWriter writer = new BufferedWriter(
@@ -67,7 +69,7 @@ public class HttpConnection {
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
-		conn.setRequestProperty( "Content-Type", "application/json" );
+		conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0");
 		conn.setRequestProperty("Accept", "*/*");
 		conn.setRequestProperty("Cookie","JSESSIONID=" + jsessionId);
@@ -100,7 +102,7 @@ public class HttpConnection {
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
-		conn.setRequestProperty( "Content-Type", "application/json" );
+		conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0");
 		conn.setRequestProperty("Accept", "*/*");
 		conn.setRequestProperty("Cookie","JSESSIONID=" + jsessionId);
@@ -131,6 +133,7 @@ public class HttpConnection {
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
+		conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0");
 		conn.setRequestProperty("Cookie","JSESSIONID=" + jsessionId);
 		
@@ -194,6 +197,7 @@ public class HttpConnection {
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
+		conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded" );
 		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0");
 		conn.setRequestProperty("Accept", "*/*");
 		

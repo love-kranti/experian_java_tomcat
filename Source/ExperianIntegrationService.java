@@ -79,24 +79,14 @@ public class ExperianIntegrationService{
 			params.add(new BasicNameValuePair("driverlicense", map.get("driverlicense").toString()));			
 			String request = getQuery(params);
 			
-			
-			String jsessionId = "";
-			for(int i=1;i<=3;i++){
-				jsessionId = HttpConnection.landingPageSubmit(request);
-				
-				logger.info("landingPageSubmit~retry~"+i);
-				if(jsessionId == null) continue;
-				if(jsessionId.equals("") == false) break; 
-			}
-			
-			String stageOneRequestId = "";
 
-			for(int i=1;i<=3;i++){
-				stageOneRequestId = HttpConnection.openCustomerDetailsFormAction(jsessionId,"");
-				logger.info("openCustomerDetailsFormAction~retry~"+i);
-				if(stageOneRequestId == null) continue;
-				if(stageOneRequestId.equals("") == false) break;
-			}
+			
+			String jsessionId = HttpConnection.landingPageSubmit(request);
+
+			
+			
+			String stageOneRequestId = HttpConnection.openCustomerDetailsFormAction(jsessionId,"");
+			
 			
 			responseMap.setuniqueId(stageOneRequestId.toString());
 			
@@ -148,14 +138,8 @@ public class ExperianIntegrationService{
 			
 			HttpConnection.fetchScreenMetaDataAction(jsessionId,   request);
 
-			String resp = "";
-			
-			for(int i=1;i<=3;i++){
-				resp = HttpConnection.submitRequest(jsessionId,  request);
-				logger.info("submitRequest~retry~"+i);
-				if(resp == null) continue;
-				if(resp.equals("") == false) break;
-			}		
+			String resp = HttpConnection.submitRequest(jsessionId,  request);
+					
 			
 			logger.info("getlandingPageDetails  ~ "+ (map.get("LOG_MARKER")== null?"NOT_GIVEN":map.get("LOG_MARKER"))
 					+" ~ request : "+ (request == null? "null":request)
@@ -181,14 +165,8 @@ public class ExperianIntegrationService{
 			
 			params.clear();
 			
-			String stageTwoRequestId ="";
-			for(int i=1;i<=3;i++){
-				stageTwoRequestId = HttpConnection.directCRQRequest(resp, jsessionId, params);
-				logger.info("directCRQRequest~retry~"+i);
-				if(stageTwoRequestId == null) continue;
-				if(stageTwoRequestId.equals("") == false) break;
-			}		
-			
+			String stageTwoRequestId = HttpConnection.directCRQRequest(resp, jsessionId, params);
+
 			logger.info("getlandingPageDetails  ~ "+(map.get("LOG_MARKER")== null?"NOT_GIVEN":map.get("LOG_MARKER"))
 					+" ~ request : "+(request == null? "null":request)
 					+" jsessionId: "+ (jsessionId ==null?"null":jsessionId)
@@ -204,15 +182,8 @@ public class ExperianIntegrationService{
 			request = getQuery(params);
 						
 			
-			String jsessionIdResp ="";
-			for(int i=1;i<=3;i++){
-				jsessionIdResp = HttpConnection.paymentSubmitRequest(request);
-				logger.info("paymentSubmitRequest~retry~"+i);
-				if(jsessionIdResp == null) continue;
-				if(jsessionIdResp.equals("") == false) break;
-			}		
-
-			
+			String jsessionIdResp = HttpConnection.paymentSubmitRequest(request);
+				
 			logger.info("getlandingPageDetails  ~ "+ (map.get("LOG_MARKER")== null?"NOT_GIVEN":map.get("LOG_MARKER"))
 					+" ~ request : "+(request == null? "null":request)
 					+" jsessionId: "+ (jsessionId ==null?"null":jsessionId)
@@ -250,17 +221,8 @@ public class ExperianIntegrationService{
 				params.add(new BasicNameValuePair("stgTwoHitId", stageTwoRequestId));
 				request = getQuery(params);
 								
-				Map questionMap =null;
-				
-				for(int i=1;i<=3;i++){
-					questionMap = HttpConnection.generateQuestionForConsumer(jsessionIdResp,  request);
-					logger.info("generateQuestionForConsumer~retry~"+i);
-					if(questionMap == null) continue;
-					responseJson = (String) questionMap.get("responseJson");
-					logger.info("generateQuestionForConsumererror~retry~"+i);
-					if(responseJson.equalsIgnoreCase("error")) continue;
-					break;
-				}
+				Map questionMap = HttpConnection.generateQuestionForConsumer(jsessionIdResp,  request);
+					
 				responseJson = (String) questionMap.get("responseJson");
 				logger.info("getlandingPageDetails  ~ "+(map.get("LOG_MARKER")== null?"NOT_GIVEN":map.get("LOG_MARKER"))
 						+" ~ request : "+(request == null? "null":request)
@@ -349,18 +311,8 @@ public class ExperianIntegrationService{
 				params.add(new BasicNameValuePair("stgOneHitId", map.get("stgOneHitId").toString()));
 				params.add(new BasicNameValuePair("stgTwoHitId", map.get("stgTwoHitId").toString()));
 				String request = getQuery(params);							
-				Map questionMap =null;
-				
-				for(int i=1;i<=3;i++){
-					questionMap = HttpConnection.generateQuestionForConsumer(jsessionId2,  request);	
-					logger.info("generateQuestionForConsumer~retry~"+i);
-					if(questionMap == null) continue;
-					responseJson = (String) questionMap.get("responseJson");
-					logger.info("generateQuestionForConsumererror~retry~"+i);
-					if(responseJson.equalsIgnoreCase("error")) continue;
-					break;
-				}
-												
+				Map questionMap = HttpConnection.generateQuestionForConsumer(jsessionId2,  request);	
+						
 				responseJson = (String) questionMap.get("responseJson");
 				
 				if (responseJson.equalsIgnoreCase("passedReport")){
